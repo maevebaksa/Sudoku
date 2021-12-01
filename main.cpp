@@ -4,7 +4,7 @@
 #include <setjmp.h>
 #include "hpdf.h"
 
-const static char* text = "Yeetus my feetus?";
+const static char* text = "she no likey 😊";
 const static char* owner_passwd = "owner";
 const static char* user_passwd = "user";
 const static char* fname = "hi.pdf";
@@ -49,7 +49,7 @@ int main(int argc, char **argv){
     /* add a new page object. */
     page = HPDF_AddPage (pdf);
 
-    HPDF_Page_SetSize (page, HPDF_PAGE_SIZE_B5, HPDF_PAGE_LANDSCAPE);
+    HPDF_Page_SetSize (page, HPDF_PAGE_SIZE_A4, HPDF_PAGE_LANDSCAPE);
 
     HPDF_Page_BeginText (page);
     HPDF_Page_SetFontAndSize (page, font, 20);
