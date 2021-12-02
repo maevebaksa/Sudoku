@@ -4,7 +4,7 @@
 #include <setjmp.h>
 #include "hpdf.h"
 
-const static char* text = "she no likey 😊";
+const static char* text = "she no likey";
 const static char* owner_passwd = "owner";
 const static char* user_passwd = "user";
 const static char* fname = "hi.pdf";
@@ -27,6 +27,7 @@ error_handler  (HPDF_STATUS   error_no,
 
 
 int main(int argc, char **argv){
+    const static char* font_name = "";
     HPDF_Doc  pdf;
     HPDF_Font font;
     HPDF_Page page;
@@ -43,8 +44,8 @@ int main(int argc, char **argv){
         return 1;
     }
 
-    /* create default-font */
-    font = HPDF_GetFont (pdf, "Helvetica", NULL);
+    font_name = HPDF_LoadTTFontFromFile (pdf, "ComicSansMS3.ttf", HPDF_TRUE);
+    font = HPDF_GetFont (pdf, font_name, "CP1250");
 
     /* add a new page object. */
     page = HPDF_AddPage (pdf);
