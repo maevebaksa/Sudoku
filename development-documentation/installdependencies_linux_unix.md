@@ -21,25 +21,30 @@ Parts of this documentation have been adapted from the official installation ins
 
 For Ubuntu, the command for this is sudo apt install PACKAGENAME. This will change from distro to distro, however, you the following packages are needed.
 
-autoconf, automake, libtools, zlib, libpng, gcc.
+autoconf, automake, libtool, zlib, libpng, gcc, g++, make.
 
 The command for these on Ubuntu is as follows, this should be the same for debian, however for other operating systems, the eqivalent packages and installer commands must be found.
 
 > sudo apt-get install autoconf
 > sudo apt-get install automake
-> sudo apt-get install libtools
+> sudo apt-get install libtool
 > sudo apt-get install zlib1g-dev
 > sudo apt-get install libpng-dev
 > sudo apt-get install gcc
+> sudo apt-get install g++
+> sudo apt-get install make
 
 *Make sure your system is properly up to date, by running sudo apt-get update, and sudo apt-get upgrade. This will take a while.*
 
 # Step 4: Install LibHaru
 
+> ./buildconf.sh --force
 > ./configure
 > sudo make clean
 > sudo make
 > sudo make install
+
+The last 2 commands may take a while, depending on the speed of your system.
 
 # Step 5: Build the program!
 

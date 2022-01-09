@@ -88,7 +88,7 @@ the last few commands might take a few minutes each to run depending on the spee
 
 # Step 8 Build the Program!
 
-Open visual studio code, and open the project folder. In the project folder, the following command can be run in the terminal tab at the bottom to compile the program.
+Open visual studio code, and open the project folder. In the project folder, the following command can be run in the terminal (opened with Control, Shift, Backtick {`}) tab at the bottom to compile the program.
 
 > g++ main.cpp -lz -lhpdf -o sudoku.exe
 
@@ -98,7 +98,7 @@ Simply run sudoku.exe in the project folder, or use
 
 > ./sudoku.exe
 
-This will create 2 files in the project folder, called "sudoku_time.pdf" and "sudokuanswers_time.pdf"
+This will create 2 files in the project folder, called "sudoku_time.pdf" and "sudokuanswers_time.pdf" which are ready for play!
 
 
 
