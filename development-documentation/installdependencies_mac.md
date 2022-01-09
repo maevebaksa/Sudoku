@@ -1,8 +1,12 @@
+# Mac Installation Instructions
+
 This guide is intended for installing the required dependencies to build the sudoku generator.
 
 This guide is intended for an M1 Mac running MacOS 11. It should be compatible for other operating systems, however hasn't been tested on other platforms.
 
 Parts of this documentation have been adapted from the official installation instructions for LibHaru available at: https://github.com/libharu/libharu/wiki/Installation and from the official brew installation instructions.
+
+All commands must be run in Terminal.
 
 # Step 1: Install Brew.
 
@@ -19,7 +23,7 @@ When prompted, press *RETURN* to continue the installation. This may take a few 
 > cd ~/Documents/LibHaru/
 > curl https://codeload.github.com/libharu/libharu/tar.gz/refs/tags/RELEASE_2_3_0 --output libharu-RELEASE_2_3_0.tar.gz
 
-The above commmands downloads the compressed archive to the 
+The above commmands downloads the compressed archive to the Documents folder.
 
 # Step 3: Unpack the LibHaru Package.
 
@@ -60,6 +64,8 @@ https://sourceforge.net/projects/libpng/
 
 Then, you can drag the .tar.gz file (not the tar.xz) into the Documents/LibHaru/ directory on your computer.
 
+This usually, however isn't necesary, and you can continue.
+
 > tar -xvzf libpng-1.6.37.tar.gz
 > cd libpng-1.6.37
 > ./configure
@@ -77,7 +83,7 @@ Then, you can drag the .tar.gz file (not the tar.xz) into the Documents/LibHaru/
 
 # Step 8 Run the Program!
 
-> g++ main.cpp -lhpdf
+> g++ main.cpp -lhpdf -lz
 
 
 
