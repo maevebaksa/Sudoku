@@ -23,7 +23,7 @@ When prompted, press *RETURN* to continue the installation. This may take a few 
 > cd ~/Documents/LibHaru/
 > curl https://codeload.github.com/libharu/libharu/tar.gz/refs/tags/RELEASE_2_3_0 --output libharu-RELEASE_2_3_0.tar.gz
 
-The above commmands downloads the compressed archive to the 
+The above commmands downloads the compressed archive to the Documents folder.
 
 # Step 3: Unpack the LibHaru Package.
 
