@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <setjmp.h>
-#include "hpdf.h"
+#include "include/hpdf.h"
 
 const static char* text = "she no likey";
 const static char* owner_passwd = "owner";
