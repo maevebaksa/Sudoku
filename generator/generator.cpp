@@ -188,6 +188,18 @@ using namespace std;
     }
   }
 
+  vector<int> generatedFilledInPuzzle(vector<int>& allValuesFilledInVector)
+  //a function who's value is the vector that contains the filled in puzzle
+  {
+    return allValuesFilledInVector;
+  }
+
+  vector<int> generatedPuzzleWithHoles(vector<int>& puzzleWithHolesVector)
+  //a function who's value is the vector that contains the puzzle with the holes
+  {
+    return puzzleWithHolesVector;
+  }
+
 int main() {
 //main function
 
@@ -227,17 +239,11 @@ int main() {
   correctTheBottomHalfOfColsThreeAndFour(allValueVector,3);
   correctTheBottomHalfOfColsThreeAndFour(allValueVector,4);
 
-  for(int i = 0; i < 16; i++) {
-    cout << allValueVector.at(i);
-  } 
-
-  cout << "\n";
+  vector<int> allValuesFilledInVector = allValueVector;
 
   askDifficultyAndGenerateHoles(allValueVector);
 
-  for(int d = 0; d < 16; d++) {
-    cout << allValueVector.at(d);
-  } 
+  vector<int> puzzleWithHolesVector = allValueVector;
 
  return 0;
  //finish the function by returning its value to 0
