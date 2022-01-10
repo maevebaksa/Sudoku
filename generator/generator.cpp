@@ -4,6 +4,8 @@
 #include <vector> //the vector standard library
 #include <time.h> //required for seeding the random function
 
+//Note: please refer to this document for code layout and function composition - https://docs.google.com/document/d/1GrnEcVqWjrPA1piCw6lERRMEFBJWyw8BRVTxK6txbbk/edit
+
 //use all names in standard library
 using namespace std;
 
@@ -205,7 +207,7 @@ vector<int> puzzleWithHolesVector {};
   }
 
 int generate() {
-//main function
+//a function for the overall puzzle generation
 
   srand(time(0));
   //Seed the random function using 0 as the time such that multiple random numbers can be gennerated in the code
@@ -239,16 +241,23 @@ int generate() {
   //adding the values from the second column to the vector with all values in the puzzle
 
   fillInRemainingRows(randCol1, randCol2, allValueVector);
+  //fill in the values in the second hallfs of rows 1-4 / columns 3 and 4
 
   correctTheBottomHalfOfColsThreeAndFour(allValueVector,3);
   correctTheBottomHalfOfColsThreeAndFour(allValueVector,4);
+  //iterate through the order of the generated values for columns 3 and 4, meeting the rule for columns
 
   allValuesFilledInVector = allValueVector;
+  //making a copy of the allValueVector at this point, where it contains the puzzle with all values filled in
 
   askDifficultyAndGenerateHoles(allValueVector);
+  //prompt the user the difficulty and generate the holes accordingly
 
   puzzleWithHolesVector = allValueVector;
+  //making a copy of the allValueVector at this point, where it contains the complete puzzle with holes
 
  return 0;
  //finish the function by returning its value to 0
 }
+
+//Note: there is no main function to be run in this cpp file, however there is one in a different file that calls the functions from this one.
