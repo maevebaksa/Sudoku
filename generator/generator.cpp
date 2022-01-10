@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <stdlib.h>
+#include <stdio.h>
 #include <cstdlib> //srand and rand are part of the c standard library
 #include <vector> //the vector standard library
 #include <time.h> //required for seeding the random function
