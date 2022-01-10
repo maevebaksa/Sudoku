@@ -69,7 +69,8 @@ int main(int argc, char **argv){
     /* clean up */
     HPDF_Free (pdf);
 
+    std::cout << generate;
+    
     return 0;
 
-    std::cout << generate;
 }

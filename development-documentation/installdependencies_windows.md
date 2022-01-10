@@ -44,11 +44,11 @@ Search for "Edit Environment Variables for your Account" through the Windows Sea
 
 Open PATH, press new, and paste in: C:\msys64\mingw64\bin
 
-Press okay, and okay to save the changes. Now return to the newly installed MSYS. You can search for the program MSYS2 MSYS in the Windows Search Bar.
+Press okay, and okay to save the changes. Now return to the newly installed MSYS. You can search for the program MSYS2 MinGW x64 in the Windows Search Bar.
 
 # Step 3: Download the LibHaru Package.
 
-All following commands must be run within the MSYS2 terminal.
+All following commands must be run within the MinGW x64 terminal.
 
 > mkdir ~/LibHaru/
 > cd ~/LibHaru/
@@ -64,12 +64,10 @@ All following commands must be run within the MSYS2 terminal.
 First, make the configurator file.
 > ./buildconf.sh --force
 
-If you are recieving issues surrounding aclocal. Make sure that you have autoconf, make and libtool installed.
-
-You can install them with:
+if this doesn't work -- autoconf, automake and libtool must be installed with the following commands:
 
 > pacman -S autoconf
-> pacman -S make
+> pacman -S automake
 > pacman -S libtool
 
 # Step 5 Install Zlib:
