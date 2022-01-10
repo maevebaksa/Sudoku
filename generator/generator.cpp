@@ -200,7 +200,7 @@ using namespace std;
     return puzzleWithHolesVector;
   }
 
-int main() {
+int generate() {
 //main function
 
   srand(time(0));
@@ -247,4 +247,10 @@ int main() {
 
  return 0;
  //finish the function by returning its value to 0
+}
+
+int main(){
+  generate();
+  generatedFilledInPuzzle();
+  generatedPuzzleWithHoles();
 }
