@@ -95,7 +95,7 @@ the last few commands might take a few minutes each to run depending on the spee
 
 Open visual studio code, and open the project folder. In the project folder, the following command can be run in the terminal (opened with Control, Shift, Backtick {`}) tab at the bottom to compile the program.
 
-> g++ main.cpp -lz -lhpdf -o sudoku.exe
+> g++ main.cpp -lz -lhpdf -std=c++17 -o sudoku.exe
 
 # Step 9 Run the Program.
 

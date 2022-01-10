@@ -85,7 +85,7 @@ This usually, however isn't necesary, and you can continue.
 
 Open visual studio code, and open the project folder. In the project folder, the following command can be run in the terminal (opened with Control, Shift, Backtick {`}) tab at the bottom to compile the program.
 
-> g++ main.cpp -lhpdf -lz -o sudokumac.out
+> g++ main.cpp -lhpdf -lz -std=c++17 -o sudokumac.out
 
 # Step 9 Run the Program.
 

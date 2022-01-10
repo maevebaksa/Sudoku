@@ -6,8 +6,7 @@ made by Max Davidoff and Maeve Baksa throughout December 2021 and January 2022. 
 
 For Mac users, you can simply run:
 
-> g++ main.cpp -lhpdf -lz -o sudokumac.out
-> ./sudokumac.out
+> g++ main.cpp -std=c++17 -lhpdf -lz -o sudokumac.out && ./sudokumac.out
 
 in the main project folder to run the project directly. Cheers!
 

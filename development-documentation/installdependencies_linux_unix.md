@@ -50,7 +50,7 @@ The last 2 commands may take a while, depending on the speed of your system.
 
 Navigate to the project directory folder. You can build the program using the following command.
 
-> g++ main.cpp -lhpdf -lz -o sudokunix.out
+> g++ main.cpp -lhpdf -lz -std=c++17 -o sudokunix.out
 
 # Step 6: Run the program!
 
