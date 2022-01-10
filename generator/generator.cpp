@@ -77,6 +77,7 @@ vector<int> puzzleWithHolesVector {};
 
   void fillInRemainingRows(vector<int> column1Vect, vector<int> column2Vect, vector<int>& allValueVector) 
   //a function to randomly fill in the remaining left half of every row while abiding the 1234 once per column, row, and box rules, and adding said values to the vector with all values
+  //Ms. Garnier, I found a way to optimize this function by making another function for the insertion and deleting of values in the allValueVector, however it is complicated and very difficult to explain, so I am not including it.
   {
     int numForWhileLoop3 = 1;
     while (numForWhileLoop3 < 5) {
