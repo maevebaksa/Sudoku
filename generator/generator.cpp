@@ -4,8 +4,8 @@
 #include <vector> //the vector standard library
 #include <time.h> //required for seeding the random function
 
-vector<int> allValuesFilledInVector
-vector<int> puzzleWithHolesVector
+vector<int> allValuesFilledInVector;
+vector<int> puzzleWithHolesVector;
 
 
 //use all names in standard library
