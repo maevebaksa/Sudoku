@@ -11,3 +11,5 @@ For Mac users, you can simply run:
 in the main project folder to run the project directly. Cheers!
 
 If the above doesn't work, going through the development documentation will give further instructions.
+
+I'm not sure if this will work properly, though.
