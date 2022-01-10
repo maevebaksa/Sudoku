@@ -4,6 +4,10 @@
 #include <vector> //the vector standard library
 #include <time.h> //required for seeding the random function
 
+vector<int> allValuesFilledInVector
+vector<int> puzzleWithHolesVector
+
+
 //use all names in standard library
 using namespace std;
 
@@ -188,13 +192,13 @@ using namespace std;
     }
   }
 
-  vector<int> generatedFilledInPuzzle(vector<int>& allValuesFilledInVector)
+  vector<int> generatedFilledInPuzzle()
   //a function who's value is the vector that contains the filled in puzzle
   {
     return allValuesFilledInVector;
   }
 
-  vector<int> generatedPuzzleWithHoles(vector<int>& puzzleWithHolesVector)
+  vector<int> generatedPuzzleWithHoles()
   //a function who's value is the vector that contains the puzzle with the holes
   {
     return puzzleWithHolesVector;
@@ -239,11 +243,11 @@ int generate() {
   correctTheBottomHalfOfColsThreeAndFour(allValueVector,3);
   correctTheBottomHalfOfColsThreeAndFour(allValueVector,4);
 
-  vector<int> allValuesFilledInVector = allValueVector;
+  allValuesFilledInVector = allValueVector;
 
   askDifficultyAndGenerateHoles(allValueVector);
 
-  vector<int> puzzleWithHolesVector = allValueVector;
+  puzzleWithHolesVector = allValueVector;
 
  return 0;
  //finish the function by returning its value to 0
