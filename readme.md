@@ -1,6 +1,6 @@
 # Sodoku
 
-made by Max Davidoff and Maeve Baksa throughout December 2021 and January 2022. This will generate a random 4x4 sudoku puzzle.
+made by Max Davidoff and Maeve Baksa throughout December 2021 and January 2022. This will generate a random 4x4 sudoku puzzle along with it's answer key.
 
 # In order to build something that isn't a precompiled binary, you have to follow the install dependencies file for your specific operating system in the development documentation folder. The precompiled /include path is availabe in the main repository, allowing for mac users to skip installing the dependencies on their system. 
 
