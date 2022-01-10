@@ -64,6 +64,14 @@ All following commands must be run within the MSYS2 terminal.
 First, make the configurator file.
 > ./buildconf.sh --force
 
+If you are recieving issues surrounding aclocal. Make sure that you have autoconf, make and libtool installed.
+
+You can install them with:
+
+> pacman -S autoconf
+> pacman -S make
+> pacman -S libtool
+
 # Step 5 Install Zlib:
 
 > pacman -S zlib-devel
@@ -78,7 +86,6 @@ press Y to confirm installation.
 
 # Step 7 Return to LibHaru and finish installation!
 
-> cd ~/LibHaru/libharu-RELEASE_2_3_0
 > ./configure --with-png=/mingw64/
 > make clean
 > make
