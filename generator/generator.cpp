@@ -4,12 +4,12 @@
 #include <vector> //the vector standard library
 #include <time.h> //required for seeding the random function
 
-vector<int> allValuesFilledInVector;
-vector<int> puzzleWithHolesVector;
-
-
 //use all names in standard library
 using namespace std;
+
+//create the 2 final output vectors as globals so they can be accessed by the PDF generator
+vector<int> allValuesFilledInVector {};
+vector<int> puzzleWithHolesVector {};
 
   //a function that takes the parameters of a vector with values in order: 1234 and an empty vector to be filled with 1 of each value 1234 in a random order
   void randomizeRowOrColumn(vector<int>& whichVectorToRand, vector<int>& oneThroughFourVector) {
@@ -251,10 +251,4 @@ int generate() {
 
  return 0;
  //finish the function by returning its value to 0
-}
-
-int main(){
-  generate();
-  generatedFilledInPuzzle();
-  generatedPuzzleWithHoles();
 }
