@@ -39,6 +39,16 @@ int main(int argc, char **argv){
     //create a float for handling the width of the title element
     HPDF_REAL title_width;
 
+    //create a variable for the linewidth
+    int linewidth = 1;
+
+    //set the font size
+    int font_size = 20;
+
+    //explain how much the buffer is
+    int buffer = (font_size * 4);
+
+
 
 
     //create the const char that will hold the font data for the three individual fonts
@@ -89,11 +99,11 @@ int main(int argc, char **argv){
     //start text
     HPDF_Page_BeginText (page);
     //set to calibri bold 20
-    HPDF_Page_SetFontAndSize (page, font, 20);
+    HPDF_Page_SetFontAndSize (page, font, font_size);
     //figure out the width of the title
     title_width = HPDF_Page_TextWidth (page, "Your Random Sudoku!");
     //move to the center of the page, as the corrdinate plane (0,0) as the bottom left and having it as inputs to a function with the page, x coord and y coord
-    HPDF_Page_MoveTextPos (page, (HPDF_Page_GetWidth (page) - title_width) / 2, HPDF_Page_GetHeight(page) - 40);
+    HPDF_Page_MoveTextPos (page, (HPDF_Page_GetWidth (page) - title_width) / 2, HPDF_Page_GetHeight(page) - buffer/2);
     //print the text onto the piece of paper
     HPDF_Page_ShowText (page, "Your Random Sudoku!");
     //finish this piece of text
@@ -128,10 +138,42 @@ int main(int argc, char **argv){
     //we use 1px for the thin lines, and 2px for the thick lines. We can calculate the total.
 
     int boxHeight;
-    boxHeight = ((HPDF_Page_GetHeight(page) - 80 + (sideLengthOfFilledPuzzle + lenOfFilledPuzzle)) / sideLengthOfFilledPuzzle);
+    boxHeight = ((HPDF_Page_GetHeight(page) - buffer + linewidth*(sideLengthOfFilledPuzzle + lenOfFilledPuzzle -1)) / sideLengthOfFilledPuzzle);
     std::cout << boxHeight << endl;
 
-    
+    //set line widths
+    HPDF_Page_SetLineWidth (page, linewidth);
+
+    //set the first of the y positions 
+    int ypos = 20;
+    //set the first of the x positions
+    //calculate the total width / height of the square center, then center it
+    int xpos = (HPDF_Page_GetWidth(page) / 2) - ((HPDF_Page_GetHeight(page) - buffer) / 2);
+
+    //make vertical lines
+    for(int i=0; i < (sideLengthOfFilledPuzzle + lenOfFilledPuzzle -1); i++){
+        if (i == 0){
+        HPDF_Page_MoveTo (page, xpos, ypos);
+        HPDF_Page_LineTo (page, xpos, (ypos + (HPDF_Page_GetHeight(page) - buffer)));
+        HPDF_Page_Stroke (page);
+        xpos = xpos + linewidth;
+        }
+        else if (i == 1){
+        HPDF_Page_MoveTo (page, xpos, ypos);
+        HPDF_Page_LineTo (page, xpos, (ypos + (HPDF_Page_GetHeight(page) - buffer)));
+        HPDF_Page_Stroke (page);
+        xpos = xpos + boxHeight;
+        }
+        else{
+        HPDF_Page_MoveTo (page, xpos, ypos);
+        HPDF_Page_LineTo (page, xpos, (ypos + (HPDF_Page_GetHeight(page) - buffer)));
+        HPDF_Page_Stroke (page);
+        xpos = xpos + boxHeight;
+        }
+    };
+
+    //
+
 
 
 
