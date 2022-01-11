@@ -255,6 +255,7 @@ int main(int argc, char **argv){
     //setup a vector to hold the generated values from the generation code
     std::vector <int> filledPuzzle = {};
     std::vector <int> holePuzzle = {};
+    std::vector <int> hintPuzzle = {};
 
     //create linewidth and fontsize variables
     int fontSize;
@@ -317,8 +318,8 @@ int main(int argc, char **argv){
         const char * puzzleNameChar = puzzleName.c_str();
 
         //call make pdf function, with all important parameters
-        make_pdf(filledPuzzle,lineWidth,fontSize, 5,filledNameChar);
-        make_pdf(holePuzzle,lineWidth,fontSize, 5,puzzleNameChar);
+        make_pdf(filledPuzzle,lineWidth,fontSize,5,filledNameChar);
+        make_pdf(holePuzzle,lineWidth,fontSize,5,puzzleNameChar);
 
         //print out the generated pdf to terminal, for answer, and puzzle
         cout << "Answer " << iString << endl;
@@ -335,11 +336,16 @@ int main(int argc, char **argv){
         if(enableHints == 1){
             std::string hintName = "sudokuhint";
             hintName = hintName +"_" + iString + ".pdf";
-            const char * hintNameChar = filledName.c_str();
+            const char * hintNameChar = hintName.c_str();
 
 
-            cout << "Puzzle " << iString << endl;
-            for(int i=0; i < holePuzzle.size(); i++) std::cout << holePuzzle.at(i) << ' ';
+            hintPuzzle = giveAHint();
+            make_pdf(hintPuzzle,lineWidth,fontSize,5,hintNameChar);
+
+            cout << "I have made it this far.";
+
+            cout << "Hint " << iString << endl;
+            for(int i=0; i < hintPuzzle.size(); i++) std::cout << holePuzzle.at(i) << ' ';
             std::cout << endl;
         }
     }
