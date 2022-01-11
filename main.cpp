@@ -297,6 +297,7 @@ int main(int argc, char **argv){
 
         //run the generator code
         generate();
+        
         //save the return values
         filledPuzzle = generatedFilledInPuzzle();
         holePuzzle = generatedPuzzleWithHoles();
