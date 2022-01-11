@@ -199,15 +199,18 @@ int make_pdf(std::vector<int> valueVector, int lineWidth, int fontSize, const ch
     //create another variable for storing the width of the number
     int numberWidth=0;
 
+    //create the number variable
+    const char * number;
+
     for(int i=0; i < lenOfFilledPuzzle; i++){
         
         if (valueVector.at(i) == 0){
             //this is just if the hole is meant to be blank
         }
         else{
-            //typecast int to char source: https://www.cplusplus.com/forum/general/103477/
-            const char * number;
-            number = (const char *)valueVector.at(i);
+            //typecast int to char source: https://www.codegrepper.com/code-examples/cpp/c%2B%2B+convert+int+to+const+char%2A
+            std::string s = std::to_string(valueVector.at(i));
+            const char * number = s.c_str();
             //set font
             font = HPDF_GetFont (pdf, calibri_regular, "CP1250");
             //start text
@@ -215,12 +218,12 @@ int make_pdf(std::vector<int> valueVector, int lineWidth, int fontSize, const ch
             //set to calibri regular and font size is box height minus buffer
             HPDF_Page_SetFontAndSize (page, font, (boxHeight - numberBuffer*2));
             //figure out the width of the number
-            numberWidth = HPDF_Page_TextWidth (page, "4");
+            numberWidth = HPDF_Page_TextWidth (page, number);
             //move text to center of box by moving it to half of the total box height (incorpeating buffer)
             // then moving it back by half the value of the number
             HPDF_Page_MoveTextPos (page, xpos + ((boxHeight-2*numberBuffer)/2) - (numberWidth/2), ypos + numberBuffer);
             //print the text onto the piece of paper
-            HPDF_Page_ShowText (page, "4");
+            HPDF_Page_ShowText (page, number);
             //finish this piece of text
             HPDF_Page_EndText (page);
         }
