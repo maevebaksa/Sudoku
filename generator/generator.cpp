@@ -204,7 +204,7 @@ vector<int> fillInAHint {};
     }
   }
 
-  void giveThemAHint(vector <int> holeVector)
+  void giveThemAHint(vector<int>& holeVector)
   //pass without reference to make a copy and not modify the running vector
   {
     fillInAHint = puzzleWithHolesVector;
