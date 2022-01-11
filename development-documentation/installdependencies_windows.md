@@ -51,12 +51,15 @@ Press okay, and okay to save the changes. Now return to the newly installed MSYS
 All following commands must be run within the MinGW x64 terminal.
 
 > mkdir ~/LibHaru/
+
 > cd ~/LibHaru/
+
 > curl https://codeload.github.com/libharu/libharu/tar.gz/refs/tags/RELEASE_2_3_0 --output libharu-RELEASE_2_3_0.tar.gz
 
 # Step 4: Unpack the LibHaru Package.
 
 > tar -xvzf libharu-RELEASE_2_3_0.tar.gz
+
 > cd libharu-RELEASE_2_3_0
 
 # Step 4: Build LibHaru Configurator
@@ -67,7 +70,9 @@ First, make the configurator file.
 if this doesn't work -- autoconf, automake and libtool must be installed with the following commands:
 
 > pacman -S autoconf
+
 > pacman -S automake
+
 > pacman -S libtool
 
 # Step 5 Install Zlib:
@@ -85,8 +90,11 @@ press Y to confirm installation.
 # Step 7 Return to LibHaru and finish installation!
 
 > ./configure --with-png=/mingw64/
+
 > make clean
+
 > make
+
 > make install
 
 the last few commands might take a few minutes each to run depending on the speed of your system. You can now close MSYS.

@@ -9,12 +9,15 @@ Parts of this documentation have been adapted from the official installation ins
 # Step 1: Download the LibHaru Package.
 
 > mkdir ~/LibHaru/
+
 > cd ~/LibHaru/
+
 > curl https://codeload.github.com/libharu/libharu/tar.gz/refs/tags/RELEASE_2_3_0 --output libharu-RELEASE_2_3_0.tar.gz
 
 # Step 2: Unpack the LibHaru Package.
 
 > tar -xvzf libharu-RELEASE_2_3_0.tar.gz
+
 > cd libharu-RELEASE_2_3_0
 
 # Step 3: Install Dependency Packages.
@@ -26,12 +29,19 @@ autoconf, automake, libtool, zlib, libpng, gcc, g++, make.
 The command for these on Ubuntu is as follows, this should be the same for debian, however for other operating systems, the eqivalent packages and installer commands must be found.
 
 > sudo apt-get install autoconf
+
 > sudo apt-get install automake
+
 > sudo apt-get install libtool
+
 > sudo apt-get install zlib1g-dev
+
 > sudo apt-get install libpng-dev
+
 > sudo apt-get install gcc
+
 > sudo apt-get install g++
+
 > sudo apt-get install make
 
 *Make sure your system is properly up to date, by running sudo apt-get update, and sudo apt-get upgrade. This will take a while.*
@@ -39,9 +49,13 @@ The command for these on Ubuntu is as follows, this should be the same for debia
 # Step 4: Install LibHaru
 
 > ./buildconf.sh --force
+
 > ./configure
+
 > sudo make clean
+
 > sudo make
+
 > sudo make install
 
 The last 2 commands may take a while, depending on the speed of your system.
