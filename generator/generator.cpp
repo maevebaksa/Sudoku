@@ -45,6 +45,7 @@ vector<int> puzzleWithHolesVector {};
         allValueVector.erase(allValueVector.begin()+columnNumber); 
       }
       else {
+        //position number calculates the vallues position value in the all value vector
         int positionNum = columnNumber - 1 + 4*numForWhileLoop2;
         allValueVector.insert(allValueVector.begin()+positionNum, columnVect.at(numForWhileLoop2));
         allValueVector.erase(allValueVector.begin()+positionNum+1);
@@ -79,6 +80,7 @@ vector<int> puzzleWithHolesVector {};
 
   void fillInRemainingRows(vector<int> column1Vect, vector<int> column2Vect, vector<int>& allValueVector) 
   //a function to randomly fill in the remaining left half of every row while abiding the 1234 once per column, row, and box rules, and adding said values to the vector with all values
+  //there is a way to do this more efficiently, however for clarity of process I will leave it this way
   {
     int numForWhileLoop3 = 1;
     while (numForWhileLoop3 < 5) {
@@ -123,6 +125,7 @@ vector<int> puzzleWithHolesVector {};
 
   void switchColumn3And4Values(vector<int>& allValueVector, int numPositionValue, int columnNum)
   //a function to switch the values in the same row from columns 3 to 4 and vice versa
+  //this function is called in the function below
   {
     if (columnNum == 4) {
       numPositionValue--;
@@ -132,11 +135,12 @@ vector<int> puzzleWithHolesVector {};
   }
 
   void correctTheBottomHalfOfColsThreeAndFour( vector<int>& allValueVector, int columnNumber)
-  //a function to swicth the bottom half values of columns three and four such that they don't violate the 1234 once per column rule
+  //a function to swicth the bottom half values of columns three and four such that they don't violate the 1234 once per column rule, making sure every value in each column 3 and 4 isn't the same as another in the same column, and if so switch it with its counterpart in the same row but opposite column
   {
     int numForWhileLoop4 = 0;
     while (numForWhileLoop4 < 4) {
       int numPositionValue = (columnNumber-1) + (4*numForWhileLoop4);
+      //another value to calculate the positions in allValueVector of values
       for (int tempNum = 0; tempNum < 4; tempNum++) {
         int tempNumPosInTotalVector = (columnNumber-1) + (4*tempNum);
         if (tempNumPosInTotalVector != numPositionValue && allValueVector.at(numPositionValue) == allValueVector.at(tempNumPosInTotalVector)){
@@ -149,13 +153,16 @@ vector<int> puzzleWithHolesVector {};
   }
 
   void takeOutElevenRandomValues(vector<int>& allValueVector, int difficultyLevel) 
-  //a function to remove 11 random values from the entire puzzle vector
+  //a function to remove 11 random values from the entire puzzle vector, with the parameter of a difficulty level which determines how many holes are created
   {
+    //create a vector with values 0-15 to represent the value positions in the all value vector
     vector<int> tempVector; 
     for(int tempNum1 = 0; tempNum1 < 16; tempNum1++) {
       tempVector.push_back(tempNum1);
     } 
 
+
+    //loop to replace a randomly picked value in the above vector to act as a position in the allValueVector to create a hole at, then delete the vector value used so it not repeated.
     int numForWhileLoop5 = 0;
     while (numForWhileLoop5 < difficultyLevel) {
       int randValueInRange = rand() % tempVector.size();
