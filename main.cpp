@@ -5,6 +5,7 @@
 #include "include/hpdf.h"
 #include "generator/generator.cpp"
 #include <math.h>
+#include <time.h>
 
 jmp_buf env;
 
@@ -39,6 +40,9 @@ int make_pdf(std::vector<int> valueVector, int lineWidth, int fontSize, const ch
 
     //create a float for handling the width of the title element
     HPDF_REAL titleWidth;
+
+    //create a const char * for holding the number data
+   
 
     //the buffer is to make sure that everything looks neat and correct, and is 4 times the font size
     int buffer = (fontSize * 4);
@@ -178,18 +182,64 @@ int make_pdf(std::vector<int> valueVector, int lineWidth, int fontSize, const ch
         ypos = ypos + (sideLengthOfFilledPuzzle/numOfSubdivisions)*(boxHeight);
     };
 
+    cout << "lines drawn";
     //add text
 
     //reset our x and y positions back to the start (plus linewidth this time, and numberBuffer)
-    ypos = (buffer/4);
-    xpos = ((HPDF_Page_GetWidth(page) - (HPDF_Page_GetHeight(page) - buffer)) / 2);
+    ypos = ((buffer/4) + numberBuffer + lineWidth);
+    xpos = (((HPDF_Page_GetWidth(page) - (HPDF_Page_GetHeight(page) - buffer)) / 2) + numberBuffer + lineWidth);
+
+    //save another copy for later usage (this is probably able to be done with pointers or something)
+    int yposOriginal = ((buffer/4) + numberBuffer + lineWidth);
+    int xposOriginal = (((HPDF_Page_GetWidth(page) - (HPDF_Page_GetHeight(page) - buffer)) / 2) + numberBuffer + lineWidth);
+
+    //start another counter to see when we're done with a column
+    int columnValue = 0;
+
+    //create another variable for storing the width of the number
+    int numberWidth=0;
 
     for(int i=0; i < lenOfFilledPuzzle; i++){
         
-        valueVector.at(i);
+        if (valueVector.at(i) == 0){
+            //this is just if the hole is meant to be blank
+            cout << "blank";
+        }
+        else{
+            //typecast int to char source: https://www.cplusplus.com/forum/general/103477/
+            const char * number;
+            number = (const char *)valueVector.at(i);
+            //set font
+            font = HPDF_GetFont (pdf, calibri_regular, "CP1250");
+            //start text
+            HPDF_Page_BeginText (page);
+            //set to calibri regular and font size is box height minus buffer
+            HPDF_Page_SetFontAndSize (page, font, (boxHeight - numberBuffer*2));
+            //figure out the width of the number
+            numberWidth = HPDF_Page_TextWidth (page, "4");
+            //move text to center of box by moving it to half of the total box height (incorpeating buffer)
+            // then moving it back by half the value of the number
+            HPDF_Page_MoveTextPos (page, xpos + ((boxHeight-2*numberBuffer)/2) - (numberWidth/2), ypos);
+            //print the text onto the piece of paper
+            HPDF_Page_ShowText (page, "4");
+            //finish this piece of text
+            HPDF_Page_EndText (page);
+            cout << "drawn text" << endl;
+        }
+
+        //now figure out where the next move should be, either just movement in Y, or in X also
+        if (columnValue < sideLengthOfFilledPuzzle -1){
+            ypos = ypos + boxHeight + lineWidth;
+            columnValue ++;
+        }
+        else{
+            ypos = yposOriginal;
+            xpos = xpos + boxHeight + lineWidth;
+            columnValue = 0;
+        }
+        
 
     }
-
 
     /* save the document to a file */
     HPDF_SaveToFile (pdf, fileName);
@@ -235,7 +285,8 @@ int main(int argc, char **argv){
     }
 
     //call the make pdf
-    make_pdf(filledPuzzle,lineWidth,fontSize,"sudoku.pdf");
+    make_pdf(filledPuzzle,lineWidth,fontSize,"sudokuanswers.pdf");
+    make_pdf(holePuzzle,lineWidth,fontSize,"sudoku.pdf");
 
     //print out the vector source: https://www.tutorialspoint.com/how-to-print-out-the-contents-of-a-vector-in-cplusplus
     for(int i=0; i < filledPuzzle.size(); i++) std::cout << filledPuzzle.at(i) << ' ';
