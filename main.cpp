@@ -27,7 +27,8 @@ error_handler  (HPDF_STATUS   error_no,
 }
 
 
-int main(int argc, char **argv){
+int make_pdf(std::vector<int> valueVector, int lineWidth, int fontSize, const char * fileName){
+//SETUP VARIABLES
 
     //set our PDF object to be named pdf
     HPDF_Doc  pdf;
@@ -37,18 +38,10 @@ int main(int argc, char **argv){
     HPDF_Page page;
 
     //create a float for handling the width of the title element
-    HPDF_REAL title_width;
+    HPDF_REAL titleWidth;
 
-    //create a variable for the linewidth
-    int linewidth = 1;
-
-    //set the font size
-    int font_size = 20;
-
-    //explain how much the buffer is
-    int buffer = (font_size * 4);
-
-
+    //the buffer is to make sure that everything looks neat and correct, and is 4 times the font size
+    int buffer = (fontSize * 4);
 
 
     //create the const char that will hold the font data for the three individual fonts
@@ -56,19 +49,9 @@ int main(int argc, char **argv){
     const char * calibri_italic;
     const char * calibri_regular;
 
-    //setup a vector to hold the generated values from the generation code
-    std::vector <int> filledPuzzle = {};
-    std::vector <int> holePuzzle = {};
-
-
-    //run the generator code
-    generate();
-    //save the return values
-    filledPuzzle = generatedFilledInPuzzle();
-    holePuzzle = generatedPuzzleWithHoles();
-
-
-    //CREATE THE FIRST PDF WITHOUT THE SOLUTIONS
+    int numberBuffer = 5;
+   
+//CREATE PDF
 
     //create a PDF object (using the given sample code to handle errors)
     pdf = HPDF_New (error_handler, NULL);
@@ -99,11 +82,11 @@ int main(int argc, char **argv){
     //start text
     HPDF_Page_BeginText (page);
     //set to calibri bold 20
-    HPDF_Page_SetFontAndSize (page, font, font_size);
+    HPDF_Page_SetFontAndSize (page, font, fontSize);
     //figure out the width of the title
-    title_width = HPDF_Page_TextWidth (page, "Your Random Sudoku!");
+    titleWidth = HPDF_Page_TextWidth (page, "Your Random Sudoku!");
     //move to the center of the page, as the corrdinate plane (0,0) as the bottom left and having it as inputs to a function with the page, x coord and y coord
-    HPDF_Page_MoveTextPos (page, (HPDF_Page_GetWidth (page) - title_width) / 2, HPDF_Page_GetHeight(page) - buffer/2);
+    HPDF_Page_MoveTextPos (page, (HPDF_Page_GetWidth (page) - titleWidth) / 2, HPDF_Page_GetHeight(page) - buffer/2);
     //print the text onto the piece of paper
     HPDF_Page_ShowText (page, "Your Random Sudoku!");
     //finish this piece of text
@@ -119,7 +102,7 @@ int main(int argc, char **argv){
 
     //figure out how many spaces there are in the puzzle
     int lenOfFilledPuzzle;
-    lenOfFilledPuzzle = filledPuzzle.size();
+    lenOfFilledPuzzle = valueVector.size();
 
     //figure out what that means in terms of a sidelength
     int sideLengthOfFilledPuzzle;
@@ -133,74 +116,132 @@ int main(int argc, char **argv){
     cout << sideLengthOfFilledPuzzle << endl;
     cout << lenOfFilledPuzzle << endl;
 
-    //knowing we want to make the title 20px as a standard, want a 20px buffer from the title and the wall, 80px of vertical space is lost.
-    //now we are able to make the calculations for the gridlines. Vertical first. 
-    //we use 1px for the thin lines, and 2px for the thick lines. We can calculate the total.
+    //calculate what the box height will be, which is the total page height, then minus the buffer, 
+    //the total widths of the lines divided by the number of boxes on one side 
 
     int boxHeight;
-    boxHeight = ((HPDF_Page_GetHeight(page) - buffer + linewidth*(sideLengthOfFilledPuzzle + lenOfFilledPuzzle -1)) / sideLengthOfFilledPuzzle);
+    boxHeight = ((HPDF_Page_GetHeight(page) - buffer - lineWidth*(sideLengthOfFilledPuzzle + numOfSubdivisions -1)) / sideLengthOfFilledPuzzle);
     std::cout << boxHeight << endl;
 
     //set line widths
-    HPDF_Page_SetLineWidth (page, linewidth);
+    HPDF_Page_SetLineWidth (page, lineWidth);
 
+    //first vertical
     //set the first of the y positions 
-    int ypos = 20;
+    int ypos = (buffer/4);
     //set the first of the x positions
-    //calculate the total width / height of the square center, then center it
-    int xpos = (HPDF_Page_GetWidth(page) / 2) - ((HPDF_Page_GetHeight(page) - buffer) / 2);
-
-    //make vertical lines
-    for(int i=0; i < (sideLengthOfFilledPuzzle + lenOfFilledPuzzle -1); i++){
-        if (i == 0){
+    // for the xposition, calculate the width of the page, subtract the width of the rectangle, (getHeight-buffer) then center by div 2
+    int xpos = ((HPDF_Page_GetWidth(page) - (HPDF_Page_GetHeight(page) - buffer)) / 2);
+    //run it the amount of times as there are squares of the puzzle (4 for a 4x4)
+    for(int i=0; i <= sideLengthOfFilledPuzzle; i++){
+        //move to start point
         HPDF_Page_MoveTo (page, xpos, ypos);
-        HPDF_Page_LineTo (page, xpos, (ypos + (HPDF_Page_GetHeight(page) - buffer)));
+        //draw line, accounting for the the thickness of the lines
+        HPDF_Page_LineTo (page, xpos, (ypos + (HPDF_Page_GetHeight(page) - buffer - lineWidth*(numOfSubdivisions+2))));
+        //draw it
         HPDF_Page_Stroke (page);
-        xpos = xpos + linewidth;
-        }
-        else if (i == 1){
-        HPDF_Page_MoveTo (page, xpos, ypos);
-        HPDF_Page_LineTo (page, xpos, (ypos + (HPDF_Page_GetHeight(page) - buffer)));
-        HPDF_Page_Stroke (page);
+        //move by the previously calculated box height
         xpos = xpos + boxHeight;
-        }
-        else{
-        HPDF_Page_MoveTo (page, xpos, ypos);
-        HPDF_Page_LineTo (page, xpos, (ypos + (HPDF_Page_GetHeight(page) - buffer)));
-        HPDF_Page_Stroke (page);
-        xpos = xpos + boxHeight;
-        }
     };
 
-    //
+    //thicken the verical lines
+    //reset parameters
+    ypos = (buffer/4);
+    xpos = ((HPDF_Page_GetWidth(page) - (HPDF_Page_GetHeight(page) - buffer)) / 2);
+    
+    for(int i=0; i <= numOfSubdivisions; i++){
+        //same except have the +lineWidth to offset slightly
+        HPDF_Page_MoveTo (page, xpos+lineWidth, ypos);
+        HPDF_Page_LineTo (page, xpos+lineWidth, (ypos + (HPDF_Page_GetHeight(page) - buffer - lineWidth*(numOfSubdivisions+2))));
+        HPDF_Page_Stroke (page);
+        //same except, move by boxes / subdivisions * box height (aka 3 for 9x9, 2 for 2x2)
+        xpos = xpos + (sideLengthOfFilledPuzzle/numOfSubdivisions)*(boxHeight);
+    };
+
+    //reset and repeat for the first horizontal
+    ypos = (buffer/4);
+    xpos = ((HPDF_Page_GetWidth(page) - (HPDF_Page_GetHeight(page) - buffer)) / 2);
+    for(int i=0; i <= sideLengthOfFilledPuzzle; i++){
+        HPDF_Page_MoveTo (page, xpos, ypos);
+        HPDF_Page_LineTo (page, (xpos + (HPDF_Page_GetHeight(page) - buffer - lineWidth*(numOfSubdivisions+2))), ypos);
+        HPDF_Page_Stroke (page);
+        ypos = ypos + boxHeight;
+    };
+
+    //thick horizontal
+    ypos = (buffer/4);
+    xpos = ((HPDF_Page_GetWidth(page) - (HPDF_Page_GetHeight(page) - buffer)) / 2);
+    for(int i=0; i <= sideLengthOfFilledPuzzle; i++){
+        HPDF_Page_MoveTo (page, xpos, ypos + lineWidth);
+        HPDF_Page_LineTo (page, (xpos + (HPDF_Page_GetHeight(page) - buffer - lineWidth*(numOfSubdivisions+2))), ypos + lineWidth);
+        HPDF_Page_Stroke (page);
+        ypos = ypos + (sideLengthOfFilledPuzzle/numOfSubdivisions)*(boxHeight);
+    };
+
+    //add text
+
+    //reset our x and y positions back to the start (plus linewidth this time, and numberBuffer)
+    ypos = (buffer/4);
+    xpos = ((HPDF_Page_GetWidth(page) - (HPDF_Page_GetHeight(page) - buffer)) / 2);
+
+    for(int i=0; i < lenOfFilledPuzzle; i++){
+        
+        valueVector.at(i);
+
+    }
 
 
+    /* save the document to a file */
+    HPDF_SaveToFile (pdf, fileName);
 
+    /* clean up */
+    HPDF_Free (pdf);
+
+    return 0;
+}
+
+int main(int argc, char **argv){
+
+
+    //setup a vector to hold the generated values from the generation code
+    std::vector <int> filledPuzzle = {};
+    std::vector <int> holePuzzle = {};
+
+
+    //run the generator code
+    generate();
+    //save the return values
+    filledPuzzle = generatedFilledInPuzzle();
+    holePuzzle = generatedPuzzleWithHoles();
+
+    //create linewidth and fontsize variables
+    int fontSize;
+    int lineWidth;
+
+    //ask questions to determine the fontSize and lineWidth, if the user doesn't input the correct values, 
+    //it will continually ask, ergo, make sure you actually listen to the computer :>
+    cout << "Here's some questions for the generation of the PDF! \n" << "What would you like your fontsize, in px? (must be nonzero and less than 100): ";
+    cin >> fontSize;
+
+    cout << "What would you like the line width for the seperator lines? (must be nonzero and less than 20.): ";
+    cin >> lineWidth; 
+
+    while (lineWidth <= 0 || lineWidth >= 20 || fontSize <= 0 || fontSize >= 100){
+        cout << "Sorry, that's not valid. \n";
+        cout << "Here's some questions for the generation of the PDF! \n" << "What would you like your fontsize, in px? (must be nonzero and less than 100): ";
+        cin >> fontSize;
+        cout << "What would you like the line width for the seperator lines? (must be nonzero and less than 20.): ";
+        cin >> lineWidth;
+    }
+
+    //call the make pdf
+    make_pdf(filledPuzzle,lineWidth,fontSize,"sudoku.pdf");
 
     //print out the vector source: https://www.tutorialspoint.com/how-to-print-out-the-contents-of-a-vector-in-cplusplus
     for(int i=0; i < filledPuzzle.size(); i++) std::cout << filledPuzzle.at(i) << ' ';
     std::cout << endl;
     for(int i=0; i < holePuzzle.size(); i++) std::cout << holePuzzle.at(i) << ' ';
     std::cout << endl;
-
-
-
-
-
-
-
-
-
-
-
-
-    /* save the document to a file */
-    HPDF_SaveToFile (pdf, "fname.pdf");
-
-    /* clean up */
-    HPDF_Free (pdf);
-
-
 
     return 0;
 
