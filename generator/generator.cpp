@@ -204,14 +204,14 @@ vector<int> fillInAHint {};
     }
   }
 
-  void giveThemAHint(vector<int>& holeVector)
+  void giveThemAHint(vector<int> holeVector)
   //pass without reference to make a copy and not modify the running vector
   {
     fillInAHint = puzzleWithHolesVector;
     int tempRandInt = rand() % holeVector.size();
     
-    fillInAHint.insert(holeVector.begin()+tempRandInt, allValuesFilledInVector.at(tempRandInt)); 
-    fillInAHint.erase(holeVector.begin()+tempRandInt+1); 
+    fillInAHint.insert(fillInAHint.begin() + holeVector.at(tempRandInt), allValuesFilledInVector.at(holeVector.at(tempRandInt))); 
+    fillInAHint.erase(fillInAHint.begin() + holeVector.at(tempRandInt) +1); 
   }
 
   vector<int> generatedFilledInPuzzle()
