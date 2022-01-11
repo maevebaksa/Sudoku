@@ -300,6 +300,10 @@ int main(int argc, char **argv){
         filledPuzzle = generatedFilledInPuzzle();
         holePuzzle = generatedPuzzleWithHoles();
 
+        //uncomment the following 2 lines if you would like to create an example 9x9.
+        //filledPuzzle = {1,2,6,4,3,7,9,5,8,8,9,5,6,2,1,4,7,3,3,7,4,9,8,5,1,2,6,4,5,7,1,9,3,8,6,2,9,8,3,2,4,6,5,1,7,6,1,2,5,7,8,3,9,4,2,6,9,3,1,4,7,8,5,5,4,8,7,6,9,2,3,1,7,3,1,8,5,2,6,4,9};
+        //holePuzzle = {1,0,6,4,3,7,9,5,8,8,9,5,0,2,1,4,7,0,3,0,0,9,0,5,1,2,6,4,5,7,1,9,0,8,6,0,9,0,8,2,0,6,5,0,7,0,1,2,0,7,8,3,9,4,2,6,9,3,0,4,0,0,5,0,4,8,7,6,0,2,3,1,7,3,1,8,5,2,6,0,9};
+        
         //create a string out off the i value
         std::string iString = std::to_string(i+1);
 
@@ -317,7 +321,7 @@ int main(int argc, char **argv){
         make_pdf(holePuzzle,lineWidth,fontSize, 5,puzzleNameChar);
 
         //print out the generated pdf to terminal, for answer, and puzzle
-        cout << "Answer "
+        cout << "Answer ";
         //print out the vector source: https://www.tutorialspoint.com/how-to-print-out-the-contents-of-a-vector-in-cplusplus
         for(int i=0; i < filledPuzzle.size(); i++) std::cout << filledPuzzle.at(i) << ' ';
         std::cout << endl;
