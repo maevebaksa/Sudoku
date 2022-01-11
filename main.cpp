@@ -98,10 +98,9 @@ int make_pdf(std::vector<int> valueVector, int lineWidth, int fontSize, int numb
 
 
     //start by making the grid
-
     //know the page width and height, as understood before, we have to 
-    cout << HPDF_Page_GetWidth(page) << endl;
-    cout << HPDF_Page_GetHeight(page) << endl;
+    //cout << HPDF_Page_GetWidth(page) << endl;
+    //cout << HPDF_Page_GetHeight(page) << endl;
 
     //figure out how many spaces there are in the puzzle
     int lenOfFilledPuzzle;
@@ -115,16 +114,16 @@ int make_pdf(std::vector<int> valueVector, int lineWidth, int fontSize, int numb
     int numOfSubdivisions;
     numOfSubdivisions = sqrt (sideLengthOfFilledPuzzle);
 
-    cout << numOfSubdivisions << endl;
-    cout << sideLengthOfFilledPuzzle << endl;
-    cout << lenOfFilledPuzzle << endl;
+    //cout << numOfSubdivisions << endl;
+    //cout << sideLengthOfFilledPuzzle << endl;
+    //cout << lenOfFilledPuzzle << endl;
 
     //calculate what the box height will be, which is the total page height, then minus the buffer, 
     //the total widths of the lines divided by the number of boxes on one side 
 
     int boxHeight;
     boxHeight = ((HPDF_Page_GetHeight(page) - buffer - lineWidth*(sideLengthOfFilledPuzzle + numOfSubdivisions -1)) / sideLengthOfFilledPuzzle);
-    std::cout << boxHeight << endl;
+    //std::cout << boxHeight << endl;
 
     //set line widths
     HPDF_Page_SetLineWidth (page, lineWidth);
@@ -181,7 +180,7 @@ int make_pdf(std::vector<int> valueVector, int lineWidth, int fontSize, int numb
         ypos = ypos + (sideLengthOfFilledPuzzle/numOfSubdivisions)*(boxHeight);
     };
 
-    cout << "lines drawn" << endl;
+    //cout << "lines drawn" << endl;
     //add text
 
     //reset our x and y positions back to the start (plus linewidth this time, and numberBuffer)
@@ -239,8 +238,6 @@ int make_pdf(std::vector<int> valueVector, int lineWidth, int fontSize, int numb
             xpos = xpos + boxHeight;
             columnValue = 0;
         }
-        
-
     }
 
     //save the pdf
@@ -303,8 +300,10 @@ int main(int argc, char **argv){
         filledPuzzle = generatedFilledInPuzzle();
         holePuzzle = generatedPuzzleWithHoles();
 
+        //create a string out off the i value
         std::string iString = std::to_string(i+1);
 
+        //build up the individual string values, for the base and answer ones
         std::string filledName = "sudokuanswers";
         filledName = filledName +"_" + iString + ".pdf";
         const char * filledNameChar = filledName.c_str();
@@ -313,24 +312,32 @@ int main(int argc, char **argv){
         puzzleName = puzzleName +"_" + iString + ".pdf";
         const char * puzzleNameChar = puzzleName.c_str();
 
-
+        //call make pdf function, with all important parameters
         make_pdf(filledPuzzle,lineWidth,fontSize, 5,filledNameChar);
         make_pdf(holePuzzle,lineWidth,fontSize, 5,puzzleNameChar);
 
+        //print out the generated pdf to terminal, for answer, and puzzle
+        cout << "Answer "
+        //print out the vector source: https://www.tutorialspoint.com/how-to-print-out-the-contents-of-a-vector-in-cplusplus
+        for(int i=0; i < filledPuzzle.size(); i++) std::cout << filledPuzzle.at(i) << ' ';
+        std::cout << endl;
+
+        cout << "Puzzle " << iString << endl;
+        for(int i=0; i < holePuzzle.size(); i++) std::cout << holePuzzle.at(i) << ' ';
+        std::cout << endl;
+
+
+        //if hints are enabled, repeat the above code for the hints, setting the name of the file, making pdf, and printing.
         if(enableHints == 1){
-        std::string hintName = "sudokuhint";
-        hintName = hintName +"_" + iString + ".pdf";
-        const char * hintNameChar = filledName.c_str();
+            std::string hintName = "sudokuhint";
+            hintName = hintName +"_" + iString + ".pdf";
+            const char * hintNameChar = filledName.c_str();
+
+
+            cout << "Puzzle " << iString << endl;
+            for(int i=0; i < holePuzzle.size(); i++) std::cout << holePuzzle.at(i) << ' ';
+            std::cout << endl;
         }
-
     }
-
-    //print out the vector source: https://www.tutorialspoint.com/how-to-print-out-the-contents-of-a-vector-in-cplusplus
-    for(int i=0; i < filledPuzzle.size(); i++) std::cout << filledPuzzle.at(i) << ' ';
-    std::cout << endl;
-    for(int i=0; i < holePuzzle.size(); i++) std::cout << holePuzzle.at(i) << ' ';
-    std::cout << endl;
-
     return 0;
-
 }
