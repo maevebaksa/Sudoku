@@ -205,7 +205,7 @@ vector<int> fillInAHint {};
   }
 
   void giveThemAHint(vector<int> holeVector)
-  //pass without reference to make a copy and not modify the running vector
+  //pass the holeVector without reference to make a copy and not modify the running vector, and replace a random hole with it's corresponding filled in puzzle value and define the global fillInAHint vector as the puzzle with holes, but with the one random hole filled in.
   {
     fillInAHint = puzzleWithHolesVector;
     int tempRandInt = rand() % holeVector.size();
@@ -286,6 +286,7 @@ int generate() {
   //making a copy of the allValueVector at this point, where it contains the complete puzzle with holes
 
   giveThemAHint(holeVector);
+  //call the giveThemAHint function
 
  return 0;
  //finish the function by returning its value to 0
