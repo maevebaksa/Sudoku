@@ -232,7 +232,7 @@ vector<int> fillInAHint {};
     return fillInAHint;
   }
 
-int generate() {
+int main() {
 //a function for the overall puzzle generation
 
   srand(time(0));
@@ -284,6 +284,8 @@ int generate() {
 
   puzzleWithHolesVector = allValueVector;
   //making a copy of the allValueVector at this point, where it contains the complete puzzle with holes
+
+  giveThemAHint(holeVector);
 
  return 0;
  //finish the function by returning its value to 0
