@@ -232,7 +232,7 @@ vector<int> fillInAHint {};
     return fillInAHint;
   }
 
-int generates() {
+int generate() {
 //a function for the overall puzzle generation
 
   srand(time(0));
