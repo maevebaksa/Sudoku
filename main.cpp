@@ -262,17 +262,17 @@ int main(int argc, char **argv){
 
     //ask questions to determine the fontSize and lineWidth, if the user doesn't input the correct values, 
     //it will continually ask, ergo, make sure you actually listen to the computer :>
-    cout << "Here's some questions for the generation of the PDF's formatting before the generator is complete! \n" << "What would you like your fontsize, in px? (must be nonzero and less than 100): ";
+    cout << "Here's some questions for the generation of the PDF's formatting before the generator is complete! \n" << "What would you like your fontsize, in px? (must be nonzero and less than 40, typically 20.): ";
     cin >> fontSize;
 
-    cout << "What would you like the line width for the seperator lines? (must be nonzero and less than 20.): ";
+    cout << "What would you like the line width for the seperator lines? (must be nonzero and less than 10, typically 4.): ";
     cin >> lineWidth; 
 
-    while (lineWidth <= 0 || lineWidth >= 20 || fontSize <= 0 || fontSize >= 100){
+    while (lineWidth <= 0 || lineWidth >= 10 || fontSize <= 0 || fontSize >= 40){
         cout << "Sorry, that's not valid. \n";
-        cout << "Here's some questions for the generation of the PDF! \n" << "What would you like your fontsize, in px? (must be nonzero and less than 100): ";
+        cout << "Here's some questions for the generation of the PDF! \n" << "What would you like your fontsize, in px? (must be nonzero and less than 40, typically 20.): ";
         cin >> fontSize;
-        cout << "What would you like the line width for the seperator lines? (must be nonzero and less than 20.): ";
+        cout << "What would you like the line width for the seperator lines? (must be nonzero and less than 10, typically 4.): ";
         cin >> lineWidth;
     }
 
@@ -321,7 +321,7 @@ int main(int argc, char **argv){
         make_pdf(holePuzzle,lineWidth,fontSize, 5,puzzleNameChar);
 
         //print out the generated pdf to terminal, for answer, and puzzle
-        cout << "Answer ";
+        cout << "Answer " << iString << endl;
         //print out the vector source: https://www.tutorialspoint.com/how-to-print-out-the-contents-of-a-vector-in-cplusplus
         for(int i=0; i < filledPuzzle.size(); i++) std::cout << filledPuzzle.at(i) << ' ';
         std::cout << endl;
