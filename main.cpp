@@ -342,8 +342,6 @@ int main(int argc, char **argv){
             hintPuzzle = giveAHint();
             make_pdf(hintPuzzle,lineWidth,fontSize,5,hintNameChar);
 
-            cout << "I have made it this far.";
-
             cout << "Hint " << iString << endl;
             for(int i=0; i < hintPuzzle.size(); i++) std::cout << holePuzzle.at(i) << ' ';
             std::cout << endl;
