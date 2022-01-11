@@ -187,11 +187,11 @@ int make_pdf(std::vector<int> valueVector, int lineWidth, int fontSize, const ch
 
     //reset our x and y positions back to the start (plus linewidth this time, and numberBuffer)
     ypos = ((buffer/4) + numberBuffer + lineWidth);
-    xpos = (((HPDF_Page_GetWidth(page) - (HPDF_Page_GetHeight(page) - buffer)) / 2) + numberBuffer + lineWidth);
+    xpos = (((HPDF_Page_GetWidth(page) - (HPDF_Page_GetHeight(page) - buffer)) / 2) + numberBuffer);
 
     //save another copy for later usage (this is probably able to be done with pointers or something)
     int yposOriginal = ((buffer/4) + numberBuffer + lineWidth);
-    int xposOriginal = (((HPDF_Page_GetWidth(page) - (HPDF_Page_GetHeight(page) - buffer)) / 2) + numberBuffer + lineWidth);
+    int xposOriginal = ((HPDF_Page_GetWidth(page) - (HPDF_Page_GetHeight(page) - buffer)) / 2);
 
     //start another counter to see when we're done with a column
     int columnValue = 0;
@@ -203,7 +203,6 @@ int make_pdf(std::vector<int> valueVector, int lineWidth, int fontSize, const ch
         
         if (valueVector.at(i) == 0){
             //this is just if the hole is meant to be blank
-            cout << "blank";
         }
         else{
             //typecast int to char source: https://www.cplusplus.com/forum/general/103477/
@@ -219,32 +218,31 @@ int make_pdf(std::vector<int> valueVector, int lineWidth, int fontSize, const ch
             numberWidth = HPDF_Page_TextWidth (page, "4");
             //move text to center of box by moving it to half of the total box height (incorpeating buffer)
             // then moving it back by half the value of the number
-            HPDF_Page_MoveTextPos (page, xpos + ((boxHeight-2*numberBuffer)/2) - (numberWidth/2), ypos);
+            HPDF_Page_MoveTextPos (page, xpos + ((boxHeight-2*numberBuffer)/2) - (numberWidth/2), ypos + numberBuffer);
             //print the text onto the piece of paper
             HPDF_Page_ShowText (page, "4");
             //finish this piece of text
             HPDF_Page_EndText (page);
-            cout << "drawn text" << endl;
         }
 
         //now figure out where the next move should be, either just movement in Y, or in X also
         if (columnValue < sideLengthOfFilledPuzzle -1){
-            ypos = ypos + boxHeight + lineWidth;
+            ypos = ypos + boxHeight;
             columnValue ++;
         }
         else{
             ypos = yposOriginal;
-            xpos = xpos + boxHeight + lineWidth;
+            xpos = xpos + boxHeight;
             columnValue = 0;
         }
         
 
     }
 
-    /* save the document to a file */
+    //save the pdf
     HPDF_SaveToFile (pdf, fileName);
 
-    /* clean up */
+    //clean the pdf and make the object for reuse
     HPDF_Free (pdf);
 
     return 0;
