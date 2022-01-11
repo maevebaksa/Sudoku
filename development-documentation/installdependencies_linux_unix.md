@@ -58,4 +58,4 @@ Simply run sudokunix.out in the project folder, or use
 
 > ./sudokunix.out
 
-This will create 2 files in the project folder, called "sudoku_time.pdf" and "sudokuanswers_time.pdf" whcih are ready for play!
+This will create 2 files in the project folder, called "sudoku_#.pdf" and "sudokuanswers_#.pdf" whcih are ready for play!

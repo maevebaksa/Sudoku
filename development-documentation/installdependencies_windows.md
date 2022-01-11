@@ -103,7 +103,7 @@ Simply run sudoku.exe in the project folder, or use
 
 > ./sudoku.exe
 
-This will create 2 files in the project folder, called "sudoku_time.pdf" and "sudokuanswers_time.pdf" which are ready for play!
+This will create 2 files in the project folder, called "sudoku_#.pdf" and "sudokuanswers_#.pdf" which are ready for play!
 
 
 

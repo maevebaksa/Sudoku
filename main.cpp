@@ -6,6 +6,7 @@
 #include "generator/generator.cpp"
 #include <math.h>
 #include <time.h>
+#include <ctime>
 
 jmp_buf env;
 
@@ -28,7 +29,7 @@ error_handler  (HPDF_STATUS   error_no,
 }
 
 
-int make_pdf(std::vector<int> valueVector, int lineWidth, int fontSize, const char * fileName){
+int make_pdf(std::vector<int> valueVector, int lineWidth, int fontSize, int numberBuffer, const char * fileName){
 //SETUP VARIABLES
 
     //set our PDF object to be named pdf
@@ -52,8 +53,6 @@ int make_pdf(std::vector<int> valueVector, int lineWidth, int fontSize, const ch
     const char * calibri_bold;
     const char * calibri_italic;
     const char * calibri_regular;
-
-    int numberBuffer = 5;
    
 //CREATE PDF
 
@@ -182,7 +181,7 @@ int make_pdf(std::vector<int> valueVector, int lineWidth, int fontSize, const ch
         ypos = ypos + (sideLengthOfFilledPuzzle/numOfSubdivisions)*(boxHeight);
     };
 
-    cout << "lines drawn";
+    cout << "lines drawn" << endl;
     //add text
 
     //reset our x and y positions back to the start (plus linewidth this time, and numberBuffer)
@@ -220,8 +219,8 @@ int make_pdf(std::vector<int> valueVector, int lineWidth, int fontSize, const ch
             //figure out the width of the number
             numberWidth = HPDF_Page_TextWidth (page, number);
             //move text to center of box by moving it to half of the total box height (incorpeating buffer)
-            // then moving it back by half the value of the number
-            HPDF_Page_MoveTextPos (page, xpos + ((boxHeight-2*numberBuffer)/2) - (numberWidth/2), ypos + numberBuffer);
+            // then moving it back by half the value of the number, also move the y position by 2x number buffer
+            HPDF_Page_MoveTextPos (page, xpos + ((boxHeight-2*numberBuffer)/2) - (numberWidth/2), ypos + 2* numberBuffer);
             //print the text onto the piece of paper
             HPDF_Page_ShowText (page, number);
             //finish this piece of text
@@ -229,10 +228,12 @@ int make_pdf(std::vector<int> valueVector, int lineWidth, int fontSize, const ch
         }
 
         //now figure out where the next move should be, either just movement in Y, or in X also
+        //if you're not at the end of the column yet, only move up by box height 
         if (columnValue < sideLengthOfFilledPuzzle -1){
             ypos = ypos + boxHeight;
             columnValue ++;
         }
+        //if you're at the end of the y axis, move both x and y
         else{
             ypos = yposOriginal;
             xpos = xpos + boxHeight;
@@ -258,20 +259,13 @@ int main(int argc, char **argv){
     std::vector <int> filledPuzzle = {};
     std::vector <int> holePuzzle = {};
 
-
-    //run the generator code
-    generate();
-    //save the return values
-    filledPuzzle = generatedFilledInPuzzle();
-    holePuzzle = generatedPuzzleWithHoles();
-
     //create linewidth and fontsize variables
     int fontSize;
     int lineWidth;
 
     //ask questions to determine the fontSize and lineWidth, if the user doesn't input the correct values, 
     //it will continually ask, ergo, make sure you actually listen to the computer :>
-    cout << "Here's some questions for the generation of the PDF! \n" << "What would you like your fontsize, in px? (must be nonzero and less than 100): ";
+    cout << "Here's some questions for the generation of the PDF's formatting before the generator is complete! \n" << "What would you like your fontsize, in px? (must be nonzero and less than 100): ";
     cin >> fontSize;
 
     cout << "What would you like the line width for the seperator lines? (must be nonzero and less than 20.): ";
@@ -285,9 +279,51 @@ int main(int argc, char **argv){
         cin >> lineWidth;
     }
 
-    //call the make pdf
-    make_pdf(filledPuzzle,lineWidth,fontSize,"sudokuanswers.pdf");
-    make_pdf(holePuzzle,lineWidth,fontSize,"sudoku.pdf");
+    //ask if you'd like hint pdfs and make sure input is valid
+    int enableHints;
+    cout << "Would you like to generate a hint PDF? (1 for Yes, 0 for No): ";
+    cin >> enableHints;
+
+    while (enableHints != 0 && enableHints != 1){
+        cout << "Sorry, that's not valid. \nWould you like to generate a hint PDF? (1 for Yes, 0 for No): ";
+        cin >> enableHints;
+    }
+
+    //ask how many you'd like and save to pdfsToGenerate
+    int pdfsToGenerate;
+    cout << "How many PDF's Would you like to generate (please input a non zero number): ";
+    cin >> pdfsToGenerate;
+
+    //for loop for generating pdfs
+    for (int i=0; i < pdfsToGenerate; i++){
+
+        //run the generator code
+        generate();
+        //save the return values
+        filledPuzzle = generatedFilledInPuzzle();
+        holePuzzle = generatedPuzzleWithHoles();
+
+        std::string iString = std::to_string(i+1);
+
+        std::string filledName = "sudokuanswers";
+        filledName = filledName +"_" + iString + ".pdf";
+        const char * filledNameChar = filledName.c_str();
+
+        std::string puzzleName = "sudoku";
+        puzzleName = puzzleName +"_" + iString + ".pdf";
+        const char * puzzleNameChar = puzzleName.c_str();
+
+
+        make_pdf(filledPuzzle,lineWidth,fontSize, 5,filledNameChar);
+        make_pdf(holePuzzle,lineWidth,fontSize, 5,puzzleNameChar);
+
+        if(enableHints == 1){
+        std::string hintName = "sudokuhint";
+        hintName = hintName +"_" + iString + ".pdf";
+        const char * hintNameChar = filledName.c_str();
+        }
+
+    }
 
     //print out the vector source: https://www.tutorialspoint.com/how-to-print-out-the-contents-of-a-vector-in-cplusplus
     for(int i=0; i < filledPuzzle.size(); i++) std::cout << filledPuzzle.at(i) << ' ';
