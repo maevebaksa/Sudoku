@@ -14,6 +14,7 @@ using namespace std;
 //create the 2 final output vectors as globals so they can be accessed by the PDF generator
 vector<int> allValuesFilledInVector {};
 vector<int> puzzleWithHolesVector {};
+vector<int> fillInAHint {};
 
   //a function that takes the parameters of a vector with values in order: 1234 and an empty vector to be filled with 1 of each value 1234 in a random order
   void randomizeRowOrColumn(vector<int>& whichVectorToRand, vector<int>& oneThroughFourVector) {
@@ -152,7 +153,7 @@ vector<int> puzzleWithHolesVector {};
     }
   }
 
-  void takeOutElevenRandomValues(vector<int>& allValueVector, int difficultyLevel) 
+  void takeOutElevenRandomValues(vector<int>& allValueVector, int difficultyLevel, vector<int>& holeVector) 
   //a function to remove 11 random values from the entire puzzle vector, with the parameter of a difficulty level which determines how many holes are created
   {
     //create a vector with values 0-15 to represent the value positions in the all value vector
@@ -166,6 +167,7 @@ vector<int> puzzleWithHolesVector {};
     int numForWhileLoop5 = 0;
     while (numForWhileLoop5 < difficultyLevel) {
       int randValueInRange = rand() % tempVector.size();
+      holeVector.push_back(randValueInRange);
 
       allValueVector.insert(allValueVector.begin()+tempVector.at(randValueInRange), 0); 
       allValueVector.erase(allValueVector.begin()+tempVector.at(randValueInRange)+1); 
@@ -176,7 +178,7 @@ vector<int> puzzleWithHolesVector {};
     }
   }
 
-  void askDifficultyAndGenerateHoles(vector<int>& allValueVector)
+  void askDifficultyAndGenerateHoles(vector<int>& allValueVector, vector<int>& holeVector)
   //a function that takes in an input from the user that determines the difficulty of the puzzle by how many holes are generated
   {
     cout << "Welcome to the Sudoku Puzzle Generator! What difficulty would you like your puzzle, easy, medium, or hard?" << endl;
@@ -185,21 +187,31 @@ vector<int> puzzleWithHolesVector {};
       string userInput;
       cin >> userInput;
       if (userInput == "easy") {
-        takeOutElevenRandomValues(allValueVector,4);
+        takeOutElevenRandomValues(allValueVector,4, holeVector);
         tempValue2 = 1;
       }
       else if (userInput == "medium") {
-        takeOutElevenRandomValues(allValueVector,7);
+        takeOutElevenRandomValues(allValueVector,7, holeVector);
         tempValue2 = 1;
       }
       else if (userInput == "hard") {
-        takeOutElevenRandomValues(allValueVector,11);
+        takeOutElevenRandomValues(allValueVector,11, holeVector);
         tempValue2 = 1;
       }
       else {
         cout << "That is not a difficulty, please select easy, medium, or hard" << endl;
       }
     }
+  }
+
+  void giveThemAHint(vector <int> holeVector)
+  //pass without reference to make a copy and not modify the running vector
+  {
+    fillInAHint = puzzleWithHolesVector;
+    int tempRandInt = rand() % holeVector.size();
+    
+    fillInAHint.insert(holeVector.begin()+tempRandInt, allValuesFilledInVector.at(tempRandInt)); 
+    fillInAHint.erase(holeVector.begin()+tempRandInt+1); 
   }
 
   vector<int> generatedFilledInPuzzle()
@@ -212,6 +224,12 @@ vector<int> puzzleWithHolesVector {};
   //a function who's value is the vector that contains the puzzle with the holes
   {
     return puzzleWithHolesVector;
+  }
+
+  vector<int> giveAHint() 
+  //a function who's value is the vector that contains the puzzle with the holes
+  {
+    return fillInAHint;
   }
 
 int generate() {
@@ -258,7 +276,10 @@ int generate() {
   allValuesFilledInVector = allValueVector;
   //making a copy of the allValueVector at this point, where it contains the puzzle with all values filled in
 
-  askDifficultyAndGenerateHoles(allValueVector);
+  vector<int> holeVector;
+  //defining an empty vector
+
+  askDifficultyAndGenerateHoles(allValueVector, holeVector);
   //prompt the user the difficulty and generate the holes accordingly
 
   puzzleWithHolesVector = allValueVector;
