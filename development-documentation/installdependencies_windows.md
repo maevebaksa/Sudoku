@@ -4,7 +4,7 @@ This guide is intended for installing the required dependencies to build the sud
 
 This guide is intended for an x64 Windows PC Running Windows 10 or Newer. It should be compatible for other operating systems, however hasn't been tested on other platforms.
 
-Parts of this documentation have been adapted from the official installation instructions for LibHaru available at: https://github.com/libharu/libharu/wiki/Installation and from the official brew installation instructions.
+Parts of this documentation have been adapted from the official installation instructions for LibHaru available at: https://github.com/libharu/libharu/wiki/Installation and from the official MSYS installation instructions.
 
 # Step 1: Install MINGW and MSYS.
 
