@@ -109,7 +109,7 @@ Open visual studio code, and open the project folder. In the project folder, the
 
 Simply run sudoku.exe in the project folder, or use
 
-> ./sudoku.exe
+> sudoku.exe
 
 This will create 2 files in the project folder, called "sudoku_#.pdf" and "sudokuanswers_#.pdf" which are ready for play!
 
